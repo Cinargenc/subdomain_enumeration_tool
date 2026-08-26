@@ -4,7 +4,7 @@ FastAPI + asyncio + dnspython ile geliştirilmiş, eşzamanlı ve rate-limited b
 subdomain enumeration aracı. Sonuçlar SQLite'ta (PostgreSQL'e taşınabilir) saklanır,
 koyu temalı bir web arayüzü ve tam bir REST API sunar.
 
-> ⚠ **Kapsam / Etik Uyarı:** Bu aracı yalnızca sahibi olduğunuz veya açık test izni
+> **Kapsam / Etik Uyarı:** Bu araç yalnızca sahibi olduğunuz veya güvenlik testi gerçekleştirmek için açık ve yetkili izin aldığınız alan adlarında kullanılmalıdır. Subdomain enumeration işlemi, hedef sistemlere çok sayıda DNS sorgusu göndererek dış saldırı >yüzeyi hakkında bilgi toplayabilir. Bu nedenle üçüncü taraf sistemlerde izinsiz tarama yapmak; hizmet sağlayıcının kullanım koşullarını ihlal edebileceği gibi, bulunduğunuz ülkenin ve hedef sistemin tabi olduğu yasal düzenlemeler kapsamında hukuki veya idari >sonuçlar doğurabilir. Aracı kullanmadan önce hedef domain üzerinde gerekli yetkiye sahip olduğunuzdan emin olun. Tarama sırasında kullanılan concurrency ve qps değerlerini makul seviyelerde tutarak DNS sunucuları üzerinde gereksiz yük veya hizmet kesintisi >oluşturmaktan kaçının. Elde edilen subdomain, DNS kaydı ve IP adresi gibi bilgileri yalnızca testin amacı doğrultusunda ve yetkilendirilen kapsam içerisinde kullanın.
 > aldığınız alan adlarında kullanın.
 
 ## Özellikler
@@ -35,10 +35,40 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 Tarayıcıda `http://localhost:8000` adresine gidin. API dokümantasyonu (Swagger):
 `http://localhost:8000/docs`.
 
+## Makefile ile çalıştırma (daha kolay yol)
+
+Yukarıdaki komutları tek tek yazmak yerine, Linux/macOS'ta (veya Windows'ta WSL /
+Git Bash üzerinden) `make` kullanarak aynı işlemleri tek satırla yapabilirsiniz:
+
+```bash
+make install     # venv oluşturur + bağımlılıkları kurar
+make dev         # sunucuyu --reload ile (geliştirme modunda) başlatır
+make run         # sunucuyu --reload olmadan başlatır
+```
+
+Diğer kullanışlı komutlar:
+
+```bash
+make help        # tüm komutları ve açıklamalarını listeler
+make reset-db    # yerel SQLite veritabanını sıfırlar
+make clean       # venv ve önbellek dosyalarını temizler
+make docker-up   # docker compose ile ayağa kaldırır
+make docker-down # docker container'ı durdurur
+make docker-logs # docker container loglarını takip eder
+```
+
+> **Not (Windows/cmd kullanıcıları):** `make` komutu varsayılan olarak Windows
+> `cmd.exe`'de bulunmaz. WSL, Git Bash veya `choco install make` ile
+> kurabilirsiniz. Kurmak istemiyorsanız yukarıdaki "Kurulum (yerel)" bölümündeki
+> komutları elle çalıştırmaya devam edebilirsiniz — Makefile sadece bir kısayoldur,
+> zorunlu değildir.
+
 ## Docker ile çalıştırma
 
 ```bash
 docker compose up --build
+# veya
+make docker-up
 ```
 
 ## API Uç Noktaları
@@ -67,7 +97,7 @@ curl -X POST http://localhost:8000/enumerate \
       }'
 ```
 
-`wordlist` alanı verilmezse, sunucudaki `wordlist.txt` (200+ yaygın alt alan adı)
+`wordlist` alanı verilmezse, sunucudaki `wordlist.txt` (400+ yaygın alt alan adı)
 kullanılır. Kendi listenizi göndermek isterseniz `"wordlist": ["www", "api", "dev", ...]`
 şeklinde ekleyin.
 
@@ -95,6 +125,7 @@ subrecon/
 │   └── index.html      # Koyu temalı web arayüzü
 ├── wordlist.txt         # Varsayılan alt alan adı kelime listesi
 ├── requirements.txt
+├── Makefile             # make install / make dev / make run vb. kısayollar
 ├── Dockerfile
 ├── docker-compose.yml
 └── README.md
