@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      # SQLite (varsayılan) yerine PostgreSQL kullanmak isterseniz aşağıdaki satırı açın
+      # ve requirements.txt'ye `asyncpg` ekleyip db servisini etkinleştirin:
+      # DATABASE_URL: postgresql+asyncpg://subrecon:subrecon@db:5432/subrecon
+      DATABASE_URL: sqlite+aiosqlite:///./data/subrecon.db
+
+  # db:
+  #   image: postgres:16-alpine
+  #   environment:
+  #     POSTGRES_USER: subrecon
+  #     POSTGRES_PASSWORD: subrecon
+  #     POSTGRES_DB: subrecon
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
+
+# volumes:
+#   pgdata:
