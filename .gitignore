@@ -1,0 +1,44 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# --- Sanal ortam ---
+venv/
+env/
+ENV/
+.venv/
+
+# --- Veritabanı (yerel SQLite) ---
+data/*.db
+data/*.sqlite3
+*.db
+*.sqlite3
+
+# --- Ortam değişkenleri / sırlar ---
+.env
+.env.*
+
+# --- Derleme / dağıtım ---
+build/
+dist/
+*.egg-info/
+
+# --- Test / kapsam ---
+.pytest_cache/
+.coverage
+htmlcov/
+
+# --- IDE / editör ---
+.vscode/
+.idea/
+*.swp
+
+# --- İşletim sistemi ---
+.DS_Store
+Thumbs.db
+
+# --- Loglar ---
+*.log
+server.log
