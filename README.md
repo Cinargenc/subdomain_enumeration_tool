@@ -4,7 +4,7 @@ FastAPI + asyncio + dnspython ile geliştirilmiş, eşzamanlı ve rate-limited b
 subdomain enumeration aracı. Sonuçlar SQLite'ta (PostgreSQL'e taşınabilir) saklanır,
 koyu temalı bir web arayüzü ve tam bir REST API sunar.
 
-> **Kapsam / Etik Uyarı:** Bu aracı yalnızca sahibi olduğunuz veya açık test izni
+> **Kapsam / Etik Uyarı:** Bu araç yalnızca sahibi olduğunuz veya güvenlik testi gerçekleştirmek için açık ve yetkili izin aldığınız alan adlarında kullanılmalıdır. Subdomain enumeration işlemi, hedef sistemlere çok sayıda DNS sorgusu göndererek dış saldırı >yüzeyi hakkında bilgi toplayabilir. Bu nedenle üçüncü taraf sistemlerde izinsiz tarama yapmak; hizmet sağlayıcının kullanım koşullarını ihlal edebileceği gibi, bulunduğunuz ülkenin ve hedef sistemin tabi olduğu yasal düzenlemeler kapsamında hukuki veya idari >sonuçlar doğurabilir. Aracı kullanmadan önce hedef domain üzerinde gerekli yetkiye sahip olduğunuzdan emin olun. Tarama sırasında kullanılan concurrency ve qps değerlerini makul seviyelerde tutarak DNS sunucuları üzerinde gereksiz yük veya hizmet kesintisi >oluşturmaktan kaçının. Elde edilen subdomain, DNS kaydı ve IP adresi gibi bilgileri yalnızca testin amacı doğrultusunda ve yetkilendirilen kapsam içerisinde kullanın.
 > aldığınız alan adlarında kullanın.
 
 ## Özellikler
@@ -97,7 +97,7 @@ curl -X POST http://localhost:8000/enumerate \
       }'
 ```
 
-`wordlist` alanı verilmezse, sunucudaki `wordlist.txt` (200+ yaygın alt alan adı)
+`wordlist` alanı verilmezse, sunucudaki `wordlist.txt` (400+ yaygın alt alan adı)
 kullanılır. Kendi listenizi göndermek isterseniz `"wordlist": ["www", "api", "dev", ...]`
 şeklinde ekleyin.
 
